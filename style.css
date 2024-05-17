@@ -1,0 +1,38 @@
+
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow-y: hidden;
+}
+
+#mapView {
+    height: 100vh;
+    width: 50%;
+
+    z-index: 0;
+}
+
+#panoView {
+    border: 0;
+    height: 100vh;
+    width: 50%;
+
+    z-index: 0;
+}
+
+.gm-iv-address, 
+.gm-iv-address-description, 
+.gm-iv-address-gm-flag,
+.gm-fullscreen-control,
+.gm-compass {
+    display: none !important;
+}
+
+button {
+    position: absolute;
+    top: 80px;
+    z-index: 1;
+}

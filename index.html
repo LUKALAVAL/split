@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="http://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="http://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCamZGmmFVJ4l2znsOWNpuWi-1_eQk7_Js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+
+    <div id="mapView"></div>
+    <!-- <div id="panoView"></div> -->
+    <iframe id="panoView" src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyCamZGmmFVJ4l2znsOWNpuWi-1_eQk7_Js&location=48.21706247681177,16.31258462385731&heading=210&pitch=10&fov=35" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> 
+
+    <button onclick="submit()">Submit</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+<!-- https://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome -->
+<!-- https://developers.google.com/streetview/web    -->
