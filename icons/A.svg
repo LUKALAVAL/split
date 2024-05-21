@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <bx:grid x="0" y="0" width="10" height="10"/>
+  </defs>
+  <circle style="fill: rgb(97, 80, 255); stroke: rgb(14, 0, 143); stroke-width: 27.0001px;" cx="11.827" cy="11.297" r="230" transform="matrix(1, 0, 0, 0.999995, 238.173004, 238.701904)"/>
+  <text style="fill: rgb(14, 0, 143); font-family: &quot;DejaVu Sans Mono&quot;; font-size: 354.2px; font-weight: 700; stroke-width: 0.714367px; white-space: pre;" x="143.707" y="376.096">A</text>
+</svg>

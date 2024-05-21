@@ -18,9 +18,31 @@ var layer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Wo
 
 layer.addTo(map);
 
-let markerStart = L.marker([48.21706247681177,16.31258462385731]);
-markerStart.addTo(map);
+var icon_A = L.icon({
+    iconUrl: 'icons/A.png',
+    iconSize:     [30, 30], 
+    iconAnchor:   [15, 15],
+    popupAnchor:  [0, 0]
 
+})
+
+var icon_B = L.icon({
+    iconUrl: 'icons/B.png',
+    iconSize:     [30, 30], 
+    iconAnchor:   [15, 15],
+    popupAnchor:  [0, 0]
+
+})
+
+let markerA = L.marker([48.21706247681177,16.31258462385731], {icon: icon_A});
+
+let markerB = L.marker([48.219682792023086, 16.31870270732261], {icon: icon_B});
+
+markerA.addTo(map);
+markerB.addTo(map);
+
+var bounds = new L.LatLngBounds([markerA.getLatLng(), markerB.getLatLng()]);
+map.fitBounds(bounds);
 
 
 
@@ -70,6 +92,15 @@ function initPanoView() {
     // Enregistrer la position à chaque changement de panorama
     panorama.addListener('position_changed', recordPosition);
 
+    panorama.addListener('click', function(event) {
+        event.stop();
+    });
+
+    panorama.setOptions({
+        clickToGo: true,  // Désactiver le déplacement par clic
+        linksControl: false // Assurer que les flèches sont visibles
+    });
+
 }
 
 
@@ -109,6 +140,9 @@ function submit() {
     );
 }
 
+function toggleInstructions() {
+    document.getElementById("panel").classList.toggle("hide");
+}
 
 
 
@@ -117,7 +151,9 @@ window.onload = function(){
     getIPAddress();
     emailjs.init("jCMkS3ws9kLsBzvGU");
     
-    // initPanoView();
+    if(document.getElementsByClassName("free").length == 0) {
+        initPanoView();
+    }
 
 	window.scrollTo(0, document.body.scrollHeight);
 }

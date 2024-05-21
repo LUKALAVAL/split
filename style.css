@@ -1,3 +1,6 @@
+html {
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+}
 
 
 body {
@@ -5,7 +8,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 #mapView {
@@ -31,8 +34,94 @@ body {
     display: none !important;
 }
 
-button {
-    position: absolute;
-    top: 80px;
-    z-index: 1;
+/* Centrer le logo Google */
+#panoView > div.gm-style > div:nth-child(14) {
+  position: absolute;
+  right: 25vw;
+  bottom: 15px;
 }
+
+#panel {
+  color: rgb(238, 238, 238);
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: 50%;
+  transform: translate(100%, 0%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  margin: 20px -20px;
+  max-width: 400px;
+  padding-bottom: 1px;
+  background-color: rgb(34,34,34);
+}
+
+
+button {
+  color: inherit;
+  width: fit-content;
+  font-size: medium;
+}
+
+
+.button1 {
+  background-color: rgb(56, 56, 56);
+}
+.button1:hover {
+  cursor: pointer;
+}
+
+.button2 {
+  font-size: smaller;
+  border: none;
+  background-color: transparent;
+  color: rgba(238, 238, 238, 0.844);
+  margin: 5px;
+}
+.button2:hover {
+  text-decoration: underline;
+}
+
+
+#panel.hide .instructions,
+#panel.hide #hideButton {
+  display: none;
+}
+
+#panel:not(.hide) #showButton,
+#panel:not(.hide) #finishButton {
+  display: none;
+}
+
+
+
+
+
+
+.icon {
+  display: inline-block;
+  width: 20px;  /* ajustez la taille selon vos besoins */
+  height: 20px; /* assurez-vous que la hauteur correspond à la largeur de l'icône */
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;  /* pour aligner les icônes au milieu du texte */
+  margin: 0 1px;  /* un peu d'espace autour des icônes */
+}
+
+.icon-A {
+  background-image: url('icons/A.png');
+}
+
+.icon-B {
+  background-image: url('icons/B.png');
+}
+
+
+
+
+
+
+
+
