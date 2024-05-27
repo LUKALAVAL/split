@@ -48,9 +48,6 @@ body {
   bottom: 0;
   right: 50%;
   transform: translate(100%, 0%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 10px;
   margin: 20px -20px;
   max-width: 400px;
@@ -85,14 +82,19 @@ button {
 }
 
 
-#panel.hide .instructions,
-#panel.hide #hideButton {
+#panel.hide .instructions {
   display: none;
 }
 
-#panel:not(.hide) #showButton,
-#panel:not(.hide) #finishButton {
+#panel:not(.hide) .summary {
   display: none;
+}
+
+.instructions,
+.summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 

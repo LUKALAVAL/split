@@ -13,26 +13,40 @@
 <body>
 
     <div id="mapView"></div>
-    <!-- <div id="panoView"></div> -->
-    <iframe id="panoView" class="free" src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyCamZGmmFVJ4l2znsOWNpuWi-1_eQk7_Js&location=48.21706247681177,16.31258462385731&heading=210&pitch=10&fov=35" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> 
+    <div id="panoView"></div>
+    <!-- <iframe id="panoView" class="free" src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyCamZGmmFVJ4l2znsOWNpuWi-1_eQk7_Js&location=48.21706247681177,16.31258462385731&heading=210&pitch=10&fov=35" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>  -->
 
     <div id="panel" class="">
-        <p class="instructions">
-            You've been dropped at location <span class="icon icon-A"></span>. Go to location <span class="icon icon-B"></span> by clicking on the image above. Once arrived, press the button <button class="button1" onclick="submit()">
-                I am at location <span class="icon icon-B"></span>
+
+        <div class="instructions">
+            <div>
+                <h2>Task <span class="step"></span></h2>
+                <p>
+                    You've been dropped at location <span class="icon icon-A"></span>. Go to location <span class="icon icon-B"></span> by clicking on the image above. Once arrived, press the button <button class="button1" onclick="submit()">
+                        I am at location <span class="icon icon-B"></span>
+                    </button>
+                    <br><br>
+                    You can explore your surroundings by dragging the mouse on the image. The map (on the left) helps you navigate.
+                </p>
+            </div>
+            <button id="hideButton" class="button2" onclick="toggleInstructions()">
+                Hide instructions
             </button>
-            <br><br>
-            You can explore your surroundings by dragging the mouse on the image. The map (on the left) helps you navigate.
-        </p>
-        <button id="finishButton" class="button1" onclick="submit()">
-            I am at location <span class="icon icon-B"></span>
-        </button>
-        <button id="hideButton" class="button2" onclick="toggleInstructions()">
-            Hide instructions
-        </button>
-        <button id="showButton" class="button2" onclick="toggleInstructions()">
-            Show instructions
-        </button>
+        </div>
+
+        <div class="summary">
+            <div>
+                <span class="step"></span>
+                <button class="button1" onclick="submit()">
+                    I am at location <span class="icon icon-B"></span>
+                </button>  
+            </div>
+            
+            <button id="showButton" class="button2" onclick="toggleInstructions()">
+                Show instructions
+            </button>
+        </div>
+
     </div>
 
     <script src="script.js"></script>

@@ -1,3 +1,68 @@
+// DATA
+const tasks = [
+    {
+        tid: 0,
+        A: {
+            lat: 48.21706247681177,
+            lng: 16.31258462385731
+        },
+        B: {
+            lat: 48.219682792023086, 
+            lng: 16.31870270732261
+        }
+    },
+    {
+        tid: 1,
+        A: {
+            lat: 48.21664578918375, 
+            lng: 16.315250211952616
+        },
+        B: {
+            lat: 48.216353905744676,
+            lng: 16.308467067607054
+        }
+    },
+    {
+        tid: 2,
+        A: {
+            lat: 48.22207492371322, 
+            lng: 16.316776932898865
+        },
+        B: {
+            lat: 48.21744146926257, 
+            lng: 16.319776594026354
+        }
+    },
+    {
+        tid: 3,
+        A: {
+            lat: 48.21608789580128, 
+            lng: 16.31026781288454
+        },
+        B: {
+            lat: 48.21679547730894, 
+            lng: 16.315752693212936
+        }
+    }
+]
+
+const maps = [
+    {
+        mid: 0,
+        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
+        type: 'normal',
+        format: 'png'
+    }
+]
+
+
+
+
+
+
+
+
 var participant = {
     id: 0,
     positions: []
@@ -5,62 +70,127 @@ var participant = {
 
 
 
-let map = L.map('mapView').setView([48.21706247681177,16.31258462385731], 20);
 
-// free tile provider http://alexurquhart.github.io/free-tiles/
-// http://leaflet-extras.github.io/leaflet-providers/preview/index.html this one is better
 
-var layer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
-	type: 'normal',
-	format: 'png'
-});
 
-layer.addTo(map);
 
+
+
+
+// INIT PROCEDURE
+var task;
+var map;
+var stepElements;
+var step = 0;
+var maxStep = tasks.length;
+function init(tIndex, mIndex) {
+
+    if(tIndex < 0) {
+        // randomize
+        tIndex = Math.floor(Math.random() * (tasks.length-1));
+    } 
+
+    task = tasks[tIndex];
+    map = maps[mIndex];
+
+    // remove selected task
+    tasks.splice(tIndex,1);
+    console.log(tasks);
+
+    initMapView(task, map);
+    // prevents unnecessary panorama loading for tests
+    if(document.getElementsByClassName("free").length == 0) {
+        initPanoView(task, map);
+    }
+
+    step = step + 1;
+    stepElements = document.getElementsByClassName("step");
+    stepElements[0].textContent = step + '/' + maxStep;
+    stepElements[1].textContent = step + '/' + maxStep;
+}
+
+
+
+
+
+
+
+
+// MAP VIEW
 var icon_A = L.icon({
     iconUrl: 'icons/A.png',
-    iconSize:     [30, 30], 
-    iconAnchor:   [15, 15],
+    iconSize:     [22, 22], 
+    iconAnchor:   [11, 11],
     popupAnchor:  [0, 0]
-
 })
 
 var icon_B = L.icon({
     iconUrl: 'icons/B.png',
-    iconSize:     [30, 30], 
-    iconAnchor:   [15, 15],
+    iconSize:     [22, 22], 
+    iconAnchor:   [11, 11],
     popupAnchor:  [0, 0]
-
 })
 
-let markerA = L.marker([48.21706247681177,16.31258462385731], {icon: icon_A});
+var mapView;
+var layer;
+var markerA;
+var markerB;
+var bounds;
+function initMapView(task, map) {
 
-let markerB = L.marker([48.219682792023086, 16.31870270732261], {icon: icon_B});
-
-markerA.addTo(map);
-markerB.addTo(map);
-
-var bounds = new L.LatLngBounds([markerA.getLatLng(), markerB.getLatLng()]);
-map.fitBounds(bounds);
-
-
-
+    // create map object
+    if(mapView) { mapView.remove(); }
+    mapView = L.map('mapView').setView([task.A.lat, task.A.lng], 10);
 
 
+    // initialize elements
+    layer = L.tileLayer(map.url, {
+        attribution: map.attribution,
+        type: map.type,
+        format: map.format
+    });
 
-function initPanoView() {
-    // Emplacement initial pour Street View (latitude, longitude)
-    var svLocation = {lat: 48.21706247681177, lng: 16.31258462385731};
+    markerA = L.marker([task.A.lat, task.A.lng], {icon: icon_A});
+    markerB = L.marker([task.B.lat, task.B.lng], {icon: icon_B});
+
+
+    // add elements to the map
+    layer.addTo(mapView);
+    markerA.addTo(mapView);
+    markerB.addTo(mapView);
+
+
+    // fit map on added elements
+    bounds = new L.LatLngBounds([markerA.getLatLng(), markerB.getLatLng()]);
+    mapView.fitBounds(bounds);
+}
+
+
+
+
+
+
+
+
+
+
+// PANORAMA VIEW
+var panoView;
+var panorama;
+var svLocation;
+function initPanoView(task, map) {
+
+    // Position initiale
+    svLocation = task.A;
 
     // Créer la carte
-    var panoView = new google.maps.Map(document.getElementById('panoView'), {
+    panoView = new google.maps.Map(document.getElementById('panoView'), {
         center: svLocation,
         zoom: 14
     });
 
     // Ajouter Street View
-    var panorama = new google.maps.StreetViewPanorama(
+    panorama = new google.maps.StreetViewPanorama(
         document.getElementById('panoView'), {
         position: svLocation,
         pov: {
@@ -82,6 +212,8 @@ function initPanoView() {
         var currentPosition = panorama.getPosition();
         var timestamp = new Date().toISOString();
         participant.positions.push({
+            tid: task.tid,
+            mid: map.mid,
             lat: currentPosition.lat(),
             lng: currentPosition.lng(),
             timestamp: timestamp
@@ -109,6 +241,7 @@ function initPanoView() {
 
 
 
+// UNIQUE IDENTIFIER (IP)
 async function getIPAddress() {
     try {
         const response = await fetch('https://api.ipify.org?format=json');
@@ -124,22 +257,43 @@ async function getIPAddress() {
 
 
 
-
+// INTERATION AND RESULT SUBMISSION
 function submit() {
-    var params = {
-        pid : participant.id,
-        content : JSON.stringify(participant)
+
+    if(step == maxStep) {
+        // this is the end
+        // submit results
+        var params = {
+            pid : participant.id,
+            content : JSON.stringify(participant)
+        }
+        emailjs.send("service_wpfrct4", "template_rkfycqo", params).then(
+            (response) => {
+              alert('THANK YOU!\nYour results have been submitted successfully.\n\nPlease share this page :)');
+            },
+            (error) => {
+              alert('FAILED... ' + error);
+            },
+        );
+
+        // terminate
+        document.getElementById('mapView').remove();
+        document.getElementById('panoView').remove();
+        document.getElementById('panel').remove();
+
+
+
+    } else {
+        // assign a new task on the same map
+        init(-1, 0);
     }
-    emailjs.send("service_wpfrct4", "template_rkfycqo", params).then(
-        (response) => {
-          alert('SUCCESS!' + response.status + response.text);
-        },
-        (error) => {
-          alert('FAILED...' + error);
-        },
-    );
 }
 
+
+
+
+
+// UI
 function toggleInstructions() {
     document.getElementById("panel").classList.toggle("hide");
 }
@@ -147,13 +301,13 @@ function toggleInstructions() {
 
 
 
+
+
+// FIRST LOAD
 window.onload = function(){
     getIPAddress();
     emailjs.init("jCMkS3ws9kLsBzvGU");
-    
-    if(document.getElementsByClassName("free").length == 0) {
-        initPanoView();
-    }
 
-	window.scrollTo(0, document.body.scrollHeight);
+    // assign a new task and a map
+    init(-1, 0);
 }
