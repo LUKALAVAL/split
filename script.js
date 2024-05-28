@@ -172,6 +172,7 @@ function initMapView(task, map) {
 
     // add elements to the map
     baselayer.addTo(mapView);
+    customlayer.addTo(mapView);
     markerA.addTo(mapView);
     markerB.addTo(mapView);
 
