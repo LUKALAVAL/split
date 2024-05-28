@@ -53,6 +53,13 @@ const maps = [
         attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
         type: 'normal',
         format: 'png'
+    },
+    {
+        mid: 1,
+        url: 'https://lukalaval.github.io/split/tiles/m1/{z}/{x}/{y}',
+        attribution: '',
+        type: 'normal',
+        format: 'png'
     }
 ]
 
@@ -132,7 +139,9 @@ var icon_B = L.icon({
 })
 
 var mapView;
-var layer;
+var basemap;
+var baselayer;
+var customlayer;
 var markerA;
 var markerB;
 var bounds;
@@ -144,7 +153,14 @@ function initMapView(task, map) {
 
 
     // initialize elements
-    layer = L.tileLayer(map.url, {
+    basemap = maps[0];
+    baselayer = L.tileLayer(basemap.url, {
+        attribution: basemap.attribution,
+        type: basemap.type,
+        format: basemap.format
+    });
+
+    customlayer = L.tileLayer(map.url, {
         attribution: map.attribution,
         type: map.type,
         format: map.format
@@ -155,7 +171,7 @@ function initMapView(task, map) {
 
 
     // add elements to the map
-    layer.addTo(mapView);
+    baselayer.addTo(mapView);
     markerA.addTo(mapView);
     markerB.addTo(mapView);
 
@@ -309,5 +325,5 @@ window.onload = function(){
     emailjs.init("jCMkS3ws9kLsBzvGU");
 
     // assign a new task and a map
-    init(-1, 0);
+    init(-1, 1);
 }
